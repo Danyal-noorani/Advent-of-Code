@@ -11,8 +11,6 @@ def sol1_part1():
 def sol1_part2():
     with open('File1') as f:
         data = f.readlines()
-        for i in data:
-            data[data.index(i)] = i.rstrip('\n')
         nums = {
             "1": "1",
             "2": "2",
@@ -33,16 +31,10 @@ def sol1_part2():
             "eight": "8",
             "nine": "9",
         }
-        sum = 0
-        for lines in data:
-            nl = []
-            for i in range(len(lines)):
-                for k, v in nums.items():
-                    if lines[i:].startswith(k):
-                        nl.append(nums[v])
-            data[data.index(lines)] = nl
-        for i in data:
-            sum+= int(i[0])*10 + int(i[-1])
+        result = 0
+        nl = [[x for i in range(len(lines)) if (x := "".join([v for k, v in nums.items() if lines[i:].startswith(k)]))] for lines in data]
+        nl = [z for i in nl if (z := int(i[0] + i[-1]))]
+        return sum(nl)
 
-        return sum
 
+print(sol1_part2())
